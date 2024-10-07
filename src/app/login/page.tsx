@@ -1,13 +1,13 @@
 // app/login/page.tsx
 
-"use client";
+'use client';
 
-import { signIn } from "next-auth/react";
-import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import LoginForm from "./components/LoginForm";
+import { signIn } from 'next-auth/react';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import LoginForm from './components/LoginForm';
 
-export default  function Login() {
+export default function Login() {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -18,32 +18,34 @@ export default  function Login() {
     const email = form.email.value;
     const password = form.password.value;
 
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       redirect: false,
       email,
       password,
     });
 
     if (res?.error) {
-      setError("Invalid email or password");
+      setError('Invalid email or password');
     } else {
-      router.push("/posts");
+      router.push('/posts');
     }
   };
 
   const handleLoginWithGitHub = async () => {
-    const res = await signIn("github", { redirect: false });
+    const res = await signIn('github', { redirect: false });
     if (!res?.error) {
-      router.push("/posts");
+      router.push('/posts');
     }
-  }
+  };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "2rem" }}>
-      <h1>Login</h1>
-      <LoginForm handleSubmit={handleSubmit} handleLoginWithGitHub={handleLoginWithGitHub} error={error} />
+    <div style={{ maxWidth: '400px', margin: 'auto', padding: '2rem' }}>
+      <h1 className="mb-4 text-center text-2xl font-semibold">Login</h1>
+      <LoginForm
+        handleSubmit={handleSubmit}
+        handleLoginWithGitHub={handleLoginWithGitHub}
+        error={error}
+      />
     </div>
   );
-};
-
-
+}

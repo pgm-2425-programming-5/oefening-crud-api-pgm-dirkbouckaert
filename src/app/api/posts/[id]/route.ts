@@ -4,8 +4,23 @@ import path from 'path';
 
 const filePath = path.resolve(process.cwd(), 'src/lib/posts.json');
 
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: number } }
+) {
+  const id: number = Number(params.id);
+  const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  const post = data.posts.find((post: any) => post.id === id);
+  if (!post) {
+    return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+  }
+  return NextResponse.json(post, { status: 200 });
+}
 
-export async function PUT(request: NextRequest, { params }: { params: { id: number } }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: number } }
+) {
   const id: number = Number(params.id);
   const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   const postIndex = data.posts.findIndex((post: any) => post.id === id);
@@ -18,7 +33,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: numb
   return NextResponse.json(data.posts[postIndex], { status: 200 });
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: number } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: number } }
+) {
   const id: number = Number(params.id);
   const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   const postIndex = data.posts.findIndex((post: any) => post.id === id);
