@@ -1,9 +1,9 @@
-import React from 'react';
+import { getServerSession } from 'next-auth';
 import { Post } from '@/types/Post';
-import PostItem from './components/PostItem';
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
+import PostItem from './components/PostItem';
 
 async function fetchPosts(): Promise<Post[]> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -21,8 +21,11 @@ export default async function PostsPage() {
 
   async function deletePost(postId: number) {
     'use server';
-    // const confirmed = confirm('Are you sure you want to delete this post?');
-    if (true) {
+    const session = await getServerSession();
+    if (!session) {
+      return redirect('/login');
+    }
+    if (typeof postId === 'number') {
       try {
         const baseUrl =
           process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';

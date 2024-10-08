@@ -3,7 +3,7 @@ import React from 'react';
 import { Post } from '@/types/Post';
 import CommentItem from './CommentItem';
 import Link from 'next/link';
-// import PostButton from './PostButton';
+import PostButton from './PostButton';
 
 export default function PostItem({
   post,
@@ -32,15 +32,30 @@ export default function PostItem({
       <h2 className="mb-2 text-2xl font-bold">{post.title}</h2>
       <p className="mb-4 text-gray-700">{post.message}</p>
       <p className="mb-4 text-gray-500">{post.amountLikes} 👍</p>
-      <Link
-        href={`/posts/${post.id}`}
-        className="rounded border border-slate-400 p-2 text-sm text-slate-500 hover:text-slate-600"
-      >
-        Read more
-      </Link>
-      <div className="mb-4 flex space-x-4">
-        {/* <PostButton color="blue" onClick={editPost} postId={post.id}>Update</PostButton> */}
-        {/* <PostButton color="red" onClick={deletePost} postId={post.id}>Delete</PostButton> */}
+
+      <div className="flex justify-between">
+        <Link
+          href={`/posts/${post.id}`}
+          className="rounded border border-slate-400 p-2 text-sm text-slate-500 hover:text-slate-600"
+        >
+          Read more
+        </Link>
+        <div className="flex gap-4">
+          <PostButton
+            color="blue"
+            onClick={editPost}
+            postId={post.id}
+          >
+            Update
+          </PostButton>
+          <PostButton
+            color="red"
+            onClick={deletePost}
+            postId={post.id}
+          >
+            Delete
+          </PostButton>
+        </div>
       </div>
       <details className="mt-4">
         <summary className="cursor-pointer text-xl font-semibold">
